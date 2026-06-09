@@ -1,4 +1,3 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -32,12 +31,15 @@ body{
 
 img{
     width:250px;
+    height:250px;
+    object-fit:cover;
     border-radius:20px;
     margin-bottom:15px;
 }
 
 h1{
     color:#ff4d6d;
+    font-size: 24px;
 }
 
 button{
@@ -50,12 +52,12 @@ button{
     transition:0.3s;
 }
 
-#yesBtn{
+.yes-btn {
     background:#4CAF50;
     color:white;
 }
 
-#noBtn{
+.no-btn {
     background:#f44336;
     color:white;
 }
@@ -73,6 +75,7 @@ input[type="date"]{
     height:10px;
     top:-20px;
     animation:fall 4s linear forwards;
+    z-index: 999;
 }
 
 @keyframes fall{
@@ -84,8 +87,9 @@ input[type="date"]{
 
 <script>
 (function(){
+    // Siguraduhing palitan ito ng totoong Public Key mo mula sa EmailJS dashboard
     emailjs.init({
-        publicKey: "YOUR_PUBLIC_KEY"
+        publicKey: "YOUR_PUBLIC_KEY" 
     });
 })();
 </script>
@@ -94,54 +98,46 @@ input[type="date"]{
 <body>
 
 <div class="card" id="card">
-
     <h1>Hi Jaymee 😊</h1>
-
-    <img src="https://images.unsplash.com/photo-1517849845537-4d257902454a?w=600"
-         alt="Cute Cat">
-
-    <p>
-        I have something to ask.... ❤️
-    </p>
-
-    <button onclick="start()">
-        Continue
-    </button>
-
+    <img src="https://images.unsplash.com/photo-1514888286974-6c03e2ca1dba?w=600" alt="Cute Cat">
+    <p>I have something to ask.... ❤️</p>
+    <button class="yes-btn" onclick="start()">Continue</button>
 </div>
 
 <script>
+let yesSize = 18; 
 
 function start(){
-
     document.getElementById("card").innerHTML = `
-
         <h1>Would you like to hang out with me after class, or on a day that you're free? 😊❤️</h1>
-
-        <img src="https://images.unsplash.com/photo-1574158622682-e40e69881006?w=600"
-             alt="Cute Cat">
-
-        <p>
-            I have been wanting to ask you this for a while. 😊
-        </p>
-
-        <button id="yesBtn">Yes ❤️</button>
-        <button id="noBtn">No 🙈</button>
-
+        <img src="https://images.unsplash.com/photo-1574158622682-e40e69881006?w=600" alt="Cute Cat">
+        <p>I have been wanting to ask you this for a while. 😊</p>
+        <button class="yes-btn" id="yesBtn" onclick="showDatePicker()">Yes ❤️</button>
+        <button class="no-btn" id="noBtn" onclick="increaseYesSize()">No 🙈</button>
     `;
+    yesSize = 18; 
+}
 
+function increaseYesSize(){
+    yesSize += 10; 
     const yesBtn = document.getElementById("yesBtn");
- <button class="no" onclick="confirmNo()">No 😔</button>
-    `;
+    if(yesBtn) {
+        yesBtn.style.fontSize = yesSize + "px";
+        yesBtn.style.padding = (yesSize/1.5) + "px " + (yesSize * 1.3) + "px";
+    }
+    
+    if(yesSize >= 48) {
+        confirmNo();
+    }
 }
 
 function confirmNo(){
     document.getElementById("card").innerHTML = `
         <h1>Are you sure? 🥺</h1>
-        <img src="https://tenor.com/view/sad-cat-gif-13246155020264201100" alt="Sad Cat">
+        <img src="https://media.tenor.com/S7_01_f1vE0AAAAi/cat-crying.gif" alt="Sad Cat">
         <p>Think carefully before making the cats sad.</p>
-        <button class="no" onclick="showSadCat()">Yes, I'm sure 😔</button>
-        <button class="yes" onclick="start()">No, wait 🥺</button>
+        <button class="no-btn" onclick="showSadCat()">Yes, I'm sure 😔</button>
+        <button class="yes-btn" onclick="start()">No, wait 🥺</button>
     `;
 }
 
@@ -153,50 +149,23 @@ function showSadCat(){
         <p>But thank you for being honest ❤️</p>
     `;
 }
-        yesBtn.style.fontSize = size + "px";
-    });
-
-    yesBtn.addEventListener("click", showDatePicker);
-}
 
 function showDatePicker(){
-
-    confetti();
-
+    confettiEffect();
     document.getElementById("card").innerHTML = `
-
         <h1>Yay! 🎉</h1>
-
-        <img src="https://images.unsplash.com/photo-1519052537078-e6302a4968d4?w=600"
-             alt="Happy Cat">
-
-        <p>
-            You just made my day. ❤️
-        </p>
-
-        <p>
-            I'd love to spend some time with you. 😊
-        </p>
-
-        <p>
-            When would you like us to go on our date?
-        </p>
-
+        <img src="https://media.tenor.com/0i_p5wzFmY8AAAAi/hearts-cats.gif" alt="Happy Cat">
+        <p>You just made my day. ❤️</p>
+        <p>I'd love to spend some time with you. 😊</p>
+        <p>When would you like us to go on our date?</p>
         <input type="date" id="datePicker">
-
         <br><br>
-
-        <button id="yesBtn" onclick="confirmDate()">
-            Choose This Date ❤️
-        </button>
-
+        <button class="yes-btn" onclick="confirmDate()">Choose This Date ❤️</button>
     `;
 }
 
 function confirmDate(){
-
-    const selectedDate =
-        document.getElementById("datePicker").value;
+    const selectedDate = document.getElementById("datePicker").value;
 
     if(!selectedDate){
         alert("Please choose a date first 😊");
@@ -211,64 +180,34 @@ function confirmDate(){
         }
     )
     .then(() => {
-
-        confetti();
-
-        document.getElementById("card").innerHTML = `
-
-            <h1>Thank You ❤️</h1>
-
-            <p>
-                Date selected:
-                <strong>${selectedDate}</strong>
-            </p>
-
-            <p>
-                Looking forward to seeing you. 😊
-            </p>
-
-        `;
+        showFinalThankYou(selectedDate, "Thank You ❤️");
     })
     .catch(() => {
-
-        document.getElementById("card").innerHTML = `
-
-            <h1>Thank You Aemie ❤️</h1>
-
-            <p>
-                Date selected:
-                <strong>${selectedDate}</strong>
-            </p>
-
-            <p>
-                Looking forward to seeing you. 😊
-            </p>
-
-        `;
+        showFinalThankYou(selectedDate, "Thank You Aemie ❤️");
     });
 }
 
-function confetti(){
+function showFinalThankYou(date, headlineText){
+    confettiEffect();
+    document.getElementById("card").innerHTML = `
+        <h1>${headlineText}</h1>
+        <img src="https://media.tenor.com/w1-v6T8A8gIAAAAi/cat-sweet.gif" alt="Sweet Cat">
+        <p>Date selected: <strong>${date}</strong></p>
+        <p>Looking forward to seeing you. 😊</p>
+    `;
+}
 
+function confettiEffect(){
     for(let i=0;i<80;i++){
-
         const c = document.createElement("div");
-
         c.classList.add("confetti");
-
         c.style.left = Math.random()*100 + "vw";
-
-        c.style.background =
-            `hsl(${Math.random()*360},100%,50%)`;
-
+        c.style.background = `hsl(${Math.random()*360},100%,50%)`;
         document.body.appendChild(c);
-
         setTimeout(() => c.remove(), 4000);
     }
 }
-
 </script>
 
 </body>
 </html>
-```
